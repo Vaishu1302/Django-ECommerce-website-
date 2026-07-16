@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+
+{% block title %}
+Products
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">🛍 Products</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <!-- <h2>🛍 Products</h2> -->
+
+    {% if user.is_staff %}
+
+    <a href="{% url 'add_product' %}" class="btn btn-success">
+        + Add Product
+    </a>
+
+    {% endif %}
+
+</div>
+
+    <!-- Filter Form -->
+    <form method="GET" class="row g-3 mb-5">
+
+        <!-- Search -->
+        <div class="col-md-3">
+            <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Search Product..."
+                value="{{ request.GET.search }}"
+            >
+        </div>
+
+        <!-- Category -->
+        <div class="col-md-2">
+            <select name="category" class="form-select">
+
+                <option value="">All Categories</option>
+
+                {% for category in categories %}
+
+                <option
+                    value="{{ category.id }}"
+                    {% if request.GET.category == category.id|stringformat:"s" %}
+                    selected
+                    {% endif %}
+                >
+                    {{ category.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <!-- Min Price -->
+        <div class="col-md-2">
+            <input
+                type="number"
+                name="min_price"
+                class="form-control"
+                placeholder="Min Price"
+                value="{{ request.GET.min_price }}"
+            >
+        </div>
+
+        <!-- Max Price -->
+        <div class="col-md-2">
+            <input
+                type="number"
+                name="max_price"
+                class="form-control"
+                placeholder="Max Price"
+                value="{{ request.GET.max_price }}"
+            >
+        </div>
+
+        <!-- Sort -->
+        <div class="col-md-2">
+            <select name="sort" class="form-select">
+
+                <option value="">Sort By</option>
+
+                <option
+                    value="low"
+                    {% if request.GET.sort == "low" %}
+                    selected
+                    {% endif %}
+                >
+                    Price: Low → High
+                </option>
+
+                <option
+                    value="high"
+                    {% if request.GET.sort == "high" %}
+                    selected
+                    {% endif %}
+                >
+                    Price: High → Low
+                </option>
+
+            </select>
+        </div>
+
+        <!-- Search Button -->
+        <div class="col-md-1 d-grid">
+            <button class="btn btn-primary">
+                Search
+            </button>
+        </div>
+
+        <!-- Clear -->
+        <div class="col-md-2">
+            <a
+                href="{% url 'product_list' %}"
+                class="btn btn-secondary w-100"
+            >
+                Clear Filters
+            </a>
+        </div>
+
+    </form>
+
+    <!-- Product Cards -->
+
+    <div class="row">
+
+        {% for product in products %}
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card shadow h-100">
+
+                <img
+                    src="{{ product.image.url }}"
+                    class="card-img-top"
+                    style="height:220px; object-fit:cover;"
+                >
+
+               <div class="card-body text-center">
+
+                    <h5>{{ product.name }}</h5>
+
+                    <p class="text-muted">
+                        {{ product.category.name }}
+                    </p>
+
+                    <h4 class="text-success">
+                        ₹ {{ product.price }}
+                    </h4>
+
+                    <a href="{% url 'product_detail' product.id %}"
+                    class="btn btn-primary w-100 mb-2">
+                        View Details
+                    </a>
+
+                    {% if user.is_staff %}
+
+                    <a href="{% url 'edit_product' product.id %}"
+                    class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'delete_product' product.id %}"
+                    class="btn btn-danger btn-sm">
+                        Delete
+                    </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="alert alert-warning text-center">
+
+                <h5>No Products Found.</h5>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- Pagination -->
+
+    
+
+{% if products.has_other_pages %}
+
+<nav class="mt-4">
+
+    <ul class="pagination justify-content-center">
+
+        <!-- First -->
+        {% if products.has_previous %}
+
+        <li class="page-item">
+
+            <a class="page-link"
+               href="?page=1&search={{ request.GET.search }}&category={{ request.GET.category }}&min_price={{ request.GET.min_price }}&max_price={{ request.GET.max_price }}&sort={{ request.GET.sort }}">
+
+                First
+
+            </a>
+
+        </li>
+
+        <li class="page-item">
+
+            <a class="page-link"
+               href="?page={{ products.previous_page_number }}&search={{ request.GET.search }}&category={{ request.GET.category }}&min_price={{ request.GET.min_price }}&max_price={{ request.GET.max_price }}&sort={{ request.GET.sort }}">
+
+                &laquo; Previous
+
+            </a>
+
+        </li>
+
+        {% endif %}
+
+        <!-- Page Numbers -->
+
+        {% for num in products.paginator.page_range %}
+
+            {% if products.number == num %}
+
+            <li class="page-item active">
+
+                <span class="page-link">
+
+                    {{ num }}
+
+                </span>
+
+            </li>
+
+            {% else %}
+
+            <li class="page-item">
+
+                <a class="page-link"
+                   href="?page={{ num }}&search={{ request.GET.search }}&category={{ request.GET.category }}&min_price={{ request.GET.min_price }}&max_price={{ request.GET.max_price }}&sort={{ request.GET.sort }}">
+
+                    {{ num }}
+
+                </a>
+
+            </li>
+
+            {% endif %}
+
+        {% endfor %}
+
+        <!-- Next -->
+
+        {% if products.has_next %}
+
+        <li class="page-item">
+
+            <a class="page-link"
+               href="?page={{ products.next_page_number }}&search={{ request.GET.search }}&category={{ request.GET.category }}&min_price={{ request.GET.min_price }}&max_price={{ request.GET.max_price }}&sort={{ request.GET.sort }}">
+
+                Next &raquo;
+
+            </a>
+
+        </li>
+
+        <li class="page-item">
+
+            <a class="page-link"
+               href="?page={{ products.paginator.num_pages }}&search={{ request.GET.search }}&category={{ request.GET.category }}&min_price={{ request.GET.min_price }}&max_price={{ request.GET.max_price }}&sort={{ request.GET.sort }}">
+
+                Last
+
+            </a>
+
+        </li>
+
+        {% endif %}
+
+    </ul>
+
+</nav>
+
+<div class="text-center text-muted mb-4">
+
+    Showing page <strong>{{ products.number }}</strong> of
+    <strong>{{ products.paginator.num_pages }}</strong>
+
+    (Total Products: <strong>{{ products.paginator.count }}</strong>)
+
+</div>
+
+{% endif %}
+
+</div>
+
+{% endblock %}

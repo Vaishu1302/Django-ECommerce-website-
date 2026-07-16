@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Order Status Updated</title>
+
+</head>
+
+<body style="margin:0; padding:30px; background:#f4f4f4; font-family:Arial, Helvetica, sans-serif;">
+
+<div style="max-width:650px; margin:auto; background:#ffffff; border-radius:8px; overflow:hidden;">
+
+    <div style="background:#198754; color:white; text-align:center; padding:20px;">
+
+        <h2>📦 Order Status Updated</h2>
+
+    </div>
+
+    <div style="padding:30px;">
+
+        <h3>Hello {{ order.full_name }},</h3>
+
+        <p>
+
+            Your order status has been updated.
+
+        </p>
+
+        <table style="width:100%; border-collapse:collapse;">
+
+            <tr>
+
+                <td><strong>Order ID</strong></td>
+
+                <td>#{{ order.id }}</td>
+
+            </tr>
+
+            <tr>
+
+                <td><strong>Current Status</strong></td>
+
+                <td>
+
+                    <strong style="color:#198754;">
+
+                        {{ order.status }}
+
+                    </strong>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td><strong>Payment Status</strong></td>
+
+                <td>{{ order.payment_status }}</td>
+
+            </tr>
+
+            <tr>
+
+                <td><strong>Total Amount</strong></td>
+
+                <td>₹ {{ order.total_amount }}</td>
+
+            </tr>
+
+        </table>
+
+        <hr>
+
+        <h4>Shipping Address</h4>
+
+        <p>
+
+            {{ order.address }}<br>
+
+            {{ order.city }}, {{ order.state }}<br>
+
+            {{ order.country }} - {{ order.pincode }}
+
+        </p>
+
+        <hr>
+
+        {% if order.status == "Processing" %}
+
+        <p>
+            👨‍💻 Your order is currently being prepared.
+        </p>
+
+        {% elif order.status == "Shipped" %}
+
+        <p>
+            🚚 Your package has been shipped and is on the way.
+        </p>
+
+        {% elif order.status == "Delivered" %}
+
+        <p>
+            ✅ Your order has been delivered successfully.
+        </p>
+
+        {% elif order.status == "Cancelled" %}
+
+        <p>
+            ❌ Your order has been cancelled.
+        </p>
+
+        {% else %}
+
+        <p>
+            Thank you for shopping with us.
+        </p>
+
+        {% endif %}
+
+        <br>
+
+        <p>
+
+            Regards,<br>
+
+            <strong>E-Commerce Team</strong>
+
+        </p>
+
+    </div>
+
+    <div style="background:#f8f9fa; text-align:center; padding:15px; color:#666;">
+
+        © 2026 E-Commerce Website
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

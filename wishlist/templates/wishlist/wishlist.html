@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Wishlist
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">
+        ❤️ My Wishlist
+    </h2>
+
+    {% if wishlist_items %}
+
+    <div class="row">
+
+        {% for item in wishlist_items %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow h-100">
+
+                <img
+                    src="{{ item.product.image.url }}"
+                    class="card-img-top"
+                    height="250"
+                    style="object-fit:cover;"
+                >
+
+                <div class="card-body">
+
+                    <h5>{{ item.product.name }}</h5>
+
+                    <p class="text-muted">
+                        {{ item.product.category }}
+                    </p>
+
+                    <h4 class="text-success">
+                        ₹ {{ item.product.price }}
+                    </h4>
+
+                    <p>
+                        <strong>Stock:</strong>
+                        {{ item.product.stock }}
+                    </p>
+
+                </div>
+
+                <div class="card-footer text-center">
+
+                    <a
+                        href="{% url 'move_to_cart' item.product.id %}"
+                        class="btn btn-success"
+                    >
+                        🛒 Move to Cart
+                    </a>
+
+                    <a
+                        href="{% url 'remove_from_wishlist' item.product.id %}"
+                        class="btn btn-danger"
+                    >
+                        Remove
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- Pagination -->
+
+    {% if wishlist_items.has_other_pages %}
+
+    <nav class="mt-4">
+
+        <ul class="pagination justify-content-center">
+
+            {% if wishlist_items.has_previous %}
+
+            <li class="page-item">
+                <a
+                    class="page-link"
+                    href="?page=1"
+                >
+                    First
+                </a>
+            </li>
+
+            <li class="page-item">
+                <a
+                    class="page-link"
+                    href="?page={{ wishlist_items.previous_page_number }}"
+                >
+                    &laquo; Previous
+                </a>
+            </li>
+
+            {% endif %}
+
+            {% for num in wishlist_items.paginator.page_range %}
+
+                {% if wishlist_items.number == num %}
+
+                <li class="page-item active">
+                    <span class="page-link">
+                        {{ num }}
+                    </span>
+                </li>
+
+                {% else %}
+
+                <li class="page-item">
+                    <a
+                        class="page-link"
+                        href="?page={{ num }}"
+                    >
+                        {{ num }}
+                    </a>
+                </li>
+
+                {% endif %}
+
+            {% endfor %}
+
+            {% if wishlist_items.has_next %}
+
+            <li class="page-item">
+                <a
+                    class="page-link"
+                    href="?page={{ wishlist_items.next_page_number }}"
+                >
+                    Next &raquo;
+                </a>
+            </li>
+
+            <li class="page-item">
+                <a
+                    class="page-link"
+                    href="?page={{ wishlist_items.paginator.num_pages }}"
+                >
+                    Last
+                </a>
+            </li>
+
+            {% endif %}
+
+        </ul>
+
+    </nav>
+
+    <div class="text-center text-muted mb-4">
+
+        Showing page
+        <strong>{{ wishlist_items.number }}</strong>
+        of
+        <strong>{{ wishlist_items.paginator.num_pages }}</strong>
+
+        (Total Wishlist Items:
+        <strong>{{ wishlist_items.paginator.count }}</strong>)
+
+    </div>
+
+    {% endif %}
+
+    {% else %}
+
+    <div class="alert alert-info text-center">
+
+        <h4>
+            ❤️ Your wishlist is empty.
+        </h4>
+
+        <br>
+
+        <a
+            href="{% url 'product_list' %}"
+            class="btn btn-primary"
+        >
+            Continue Shopping
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Profile
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h3 class="mb-0">
+                        Edit Profile
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form
+                        method="POST"
+                        enctype="multipart/form-data"
+                    >
+
+                        {% csrf_token %}
+
+                        <div class="text-center mb-4">
+
+                            {% if request.user.userprofile.profile_picture %}
+
+                            <img
+                                src="{{ request.user.userprofile.profile_picture.url }}"
+                                class="rounded-circle border shadow"
+                                width="150"
+                                height="150"
+                                style="object-fit:cover;"
+                            >
+
+                            {% else %}
+
+                            <img
+                                src="https://via.placeholder.com/150"
+                                class="rounded-circle border shadow"
+                            >
+
+                            {% endif %}
+
+                        </div>
+
+                        {{ form.as_p }}
+
+                        <div class="d-grid gap-2 mt-4">
+
+                            <button
+                                type="submit"
+                                class="btn btn-success"
+                            >
+
+                                Save Changes
+
+                            </button>
+
+                            <a
+                                href="{% url 'profile' %}"
+                                class="btn btn-secondary"
+                            >
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

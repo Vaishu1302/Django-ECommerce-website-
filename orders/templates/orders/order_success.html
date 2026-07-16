@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}
+Order Successful
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-body text-center">
+
+                    <h1 class="text-success">
+
+                        ✅ Order Placed Successfully!
+
+                    </h1>
+
+                    <hr>
+
+                    <h4>
+
+                        Thank you for shopping with
+
+                        <span class="text-primary">
+
+                            ShopSphere
+
+                        </span>
+
+                    </h4>
+
+                    <br>
+
+                    <h5>
+
+                        Order ID :
+                        <strong>
+
+                            #{{ order.id }}
+
+                        </strong>
+
+                    </h5>
+
+                    <br>
+
+                    <h5>
+
+                        Order Status :
+
+                        <span class="badge bg-warning text-dark">
+
+                            {{ order.status }}
+
+                        </span>
+
+                    </h5>
+
+                    <br>
+
+                    <h5>
+
+                        Payment Method :
+
+                        <strong>
+
+                            {{ order.get_payment_method_display }}
+
+                        </strong>
+
+                    </h5>
+
+                    <br>
+
+                    <h3 class="text-success">
+
+                        Total Amount :
+
+                        ₹ {{ order.total_amount }}
+
+                    </h3>
+
+                    <br>
+
+                    <p class="text-muted">
+
+                        Your order has been received successfully.
+
+                        You can track your order anytime from
+
+                        <strong>
+
+                            My Orders
+
+                        </strong>.
+
+                    </p>
+
+                    <br>
+
+                    <a
+                        href="{% url 'product_list' %}"
+                        class="btn btn-primary">
+
+                        Continue Shopping
+
+                    </a>
+
+                    <a
+                        href="{% url 'my_orders' %}"
+                        class="btn btn-success">
+
+                        My Orders
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

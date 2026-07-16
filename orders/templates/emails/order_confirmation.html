@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Order Confirmation</title>
+
+</head>
+
+<body style="font-family: Arial, sans-serif; background:#f4f4f4; padding:30px;">
+
+    <div style="max-width:650px; margin:auto; background:white; border-radius:8px; overflow:hidden;">
+
+        <div style="background:#0d6efd; color:white; padding:20px; text-align:center;">
+
+            <h2>🛍 Order Confirmation</h2>
+
+        </div>
+
+        <div style="padding:30px;">
+
+            <h3>Hello {{ order.full_name }},</h3>
+
+            <p>
+
+                Thank you for shopping with us!
+
+                Your order has been placed successfully.
+
+            </p>
+
+            <hr>
+
+            <h4>Order Details</h4>
+
+            <table style="width:100%;">
+
+                <tr>
+
+                    <td><strong>Order ID</strong></td>
+
+                    <td>#{{ order.id }}</td>
+
+                </tr>
+
+                <tr>
+
+                    <td><strong>Total Amount</strong></td>
+
+                    <td>₹ {{ order.total_amount }}</td>
+
+                </tr>
+
+                <tr>
+
+                    <td><strong>Payment Method</strong></td>
+
+                    <td>{{ order.payment_method }}</td>
+
+                </tr>
+
+                <tr>
+
+                    <td><strong>Payment Status</strong></td>
+
+                    <td>{{ order.payment_status }}</td>
+
+                </tr>
+
+                <tr>
+
+                    <td><strong>Order Status</strong></td>
+
+                    <td>{{ order.status }}</td>
+
+                </tr>
+
+            </table>
+
+            <hr>
+
+            <h4>Shipping Address</h4>
+
+            <p>
+
+                {{ order.address }}<br>
+
+                {{ order.city }}, {{ order.state }}<br>
+
+                {{ order.country }} - {{ order.pincode }}
+
+            </p>
+
+            <hr>
+
+            <p>
+
+                We'll notify you as your order progresses.
+
+            </p>
+
+            <p>
+
+                Thank you for shopping with us!
+
+            </p>
+
+        </div>
+
+        <div style="background:#f8f9fa; text-align:center; padding:15px;">
+
+            © 2026 E-Commerce Website
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

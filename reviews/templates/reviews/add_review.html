@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}
+Write Review
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-warning text-dark">
+
+                    <h3>⭐ Write a Review</h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <h5 class="mb-3">
+
+                        Product:
+                        <strong>{{ product.name }}</strong>
+
+                    </h5>
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        {{ form.as_p }}
+
+                        <button
+                            type="submit"
+                            class="btn btn-success"
+                        >
+                            Submit Review
+                        </button>
+
+                        <a
+                            href="{% url 'product_detail' product.id %}"
+                            class="btn btn-secondary"
+                        >
+                            Cancel
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

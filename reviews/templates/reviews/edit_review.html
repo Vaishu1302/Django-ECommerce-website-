@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Review
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h3>Edit Your Review</h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        {{ form.as_p }}
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Update Review
+                        </button>
+
+                        <a
+                            href="{% url 'product_detail' review.product.id %}"
+                            class="btn btn-secondary"
+                        >
+                            Cancel
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block title %}
+Checkout
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row">
+
+        <!-- Shipping Address -->
+
+        <div class="col-lg-7">
+
+            <div class="card shadow mb-4">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h4>📦 Shipping Address</h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <label>Full Name</label>
+
+                            {{ form.full_name }}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label>Phone</label>
+
+                            {{ form.phone }}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label>Address</label>
+
+                            {{ form.address }}
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <label>City</label>
+
+                                {{ form.city }}
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label>State</label>
+
+                                {{ form.state }}
+
+                            </div>
+
+                        </div>
+
+                        <br>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <label>Country</label>
+
+                                {{ form.country }}
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label>Pincode</label>
+
+                                {{ form.pincode }}
+
+                            </div>
+
+                        </div>
+
+                        <br>
+
+                        <div class="mb-3">
+
+                            <label>Payment Method</label>
+
+                            {{ form.payment_method }}
+
+                        </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Order Summary -->
+
+        <div class="col-lg-5">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    <h4>🛒 Order Summary</h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% for item in cart_items %}
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <strong>
+
+                                {{ item.product.name }}
+
+                            </strong>
+
+                            <br>
+
+                            Qty :
+                            {{ item.quantity }}
+
+                        </div>
+
+                        <div>
+
+                            ₹ {{ item.subtotal }}
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    {% endfor %}
+
+                    <div class="d-flex justify-content-between">
+
+                        <strong>Subtotal</strong>
+
+                        <strong>
+
+                            ₹ {{ total }}
+
+                        </strong>
+
+                    </div>
+
+                    <br>
+
+                    <div class="d-flex justify-content-between">
+
+                        <span>Shipping</span>
+
+                        <span class="text-success">
+
+                            FREE
+
+                        </span>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between">
+
+                        <h4>Total</h4>
+
+                        <h4 class="text-success">
+
+                            ₹ {{ total }}
+
+                        </h4>
+
+                    </div>
+
+                    <br>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success w-100 btn-lg">
+
+                        ✅ Place Order
+
+                    </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
